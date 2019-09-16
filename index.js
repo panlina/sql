@@ -6,6 +6,8 @@ function generate(sql) {
 				select += ` from (${generate(sql.from)})`;
 			if (sql.where)
 				select += ` where (${generate(sql.where)})`;
+			if (sql.with)
+				select = `with ${sql.with.name} as (${generate(sql.with.value)}) ${select}`;
 			return select;
 		case 'binary':
 			return `(${generate(sql.left)})${sql.operator}(${generate(sql.right)})`;
