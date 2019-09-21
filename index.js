@@ -2,8 +2,11 @@ function generate(sql) {
 	switch (sql.type) {
 		case 'select':
 			var select = `select ${sql.field.map(generate).join(',')}`;
-			if (sql.from)
+			if (sql.from) {
 				select += ` from (${generate(sql.from)})`;
+				if (sql.alias)
+					select += ` ${sql.alias}`;
+			}
 			if (sql.where)
 				select += ` where (${generate(sql.where)})`;
 			if (sql.with)
