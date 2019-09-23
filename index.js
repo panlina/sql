@@ -3,7 +3,10 @@ function generate(sql) {
 		case 'select':
 			var select = `select ${sql.field.map(generate).join(',')}`;
 			if (sql.from) {
-				select += ` from (${generate(sql.from)})`;
+				var from = generate(sql.from);
+				if (sql.from.type == 'select')	// "select * from (a) a" is invalid
+					from = `(${from})`;
+				select += ` from ${from}`;
 				if (sql.alias)
 					select += ` ${sql.alias}`;
 			}
