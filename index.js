@@ -6,9 +6,9 @@ function generate(sql) {
 				var from = generate(sql.from);
 				if (sql.from.type == 'select')	// "select * from (a) a" is invalid
 					from = `(${from})`;
+				if (sql.from.alias)
+					from += ` ${sql.from.alias}`;
 				select += ` from ${from}`;
-				if (sql.alias)
-					select += ` ${sql.alias}`;
 			}
 			if (sql.where)
 				select += ` where (${generate(sql.where)})`;
