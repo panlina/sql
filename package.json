@@ -2,5 +2,8 @@
   "name": "sql-generate",
   "version": "0.0.0",
   "author": "Jack Lu <jacklu@jacklu.me>",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "lodash.groupby": "^4.6.0"
+  }
 }

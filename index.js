@@ -20,16 +20,25 @@ function generate(sql) {
 			if (sql.with)
 				select = `with ${sql.with.name} as (${generate(sql.with.value)}) ${select}`;
 			return select;
-		case 'binary':
-			var left = generate(sql.left);
-			if ((sql.left.type == 'binary' || sql.left.type == 'unary') && operator[sql.left.operator] >= operator[sql.operator] || sql.left.type == 'select')
-				left = `(${left})`;
-			var right = generate(sql.right);
-			if ((sql.right.type == 'binary' || sql.right.type == 'unary') && operator[sql.right.operator] >= operator[sql.operator] || sql.right.type == 'select')
-				right = `(${right})`;
-			return `${left}${sql.operator}${right}`;
-		case 'unary':
-			return `${sql.operator}(${generate(sql.operand)})`;
+		case 'operation':
+			if (sql.left) {
+				var left = generate(sql.left);
+				if (sql.left.type == 'operation' && operatorPrecedence(sql.left) > operatorPrecedence(sql) || sql.left.type == 'select')
+					left = `(${left})`;
+			}
+			if (sql.right) {
+				var right = generate(sql.right);
+				if (sql.right.type == 'operation' && operatorPrecedence(sql.right) >= operatorPrecedence(sql) || sql.right.type == 'select')
+					right = `(${right})`;
+			}
+			return `${left || ''}${sql.operator}${right || ''}`;
+			function operatorPrecedence(expression) {
+				return operator.resolve(
+					expression.operator,
+					!!expression.left,
+					!!expression.right
+				).precedence;
+			}
 		case 'name':
 			return sql.identifier;
 		case 'literal':
