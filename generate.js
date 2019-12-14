@@ -39,6 +39,8 @@ function generate(sql) {
 					!!expression.right
 				).precedence;
 			}
+		case 'call':
+			return `${generate(sql.callee)}(${sql.arguments.map(generate).join(',')})`;
 		case 'name':
 			return sql.identifier;
 		case 'literal':

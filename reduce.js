@@ -29,6 +29,9 @@ function reduce(sql) {
 			if (sql.right)
 				sql.right = reduce(sql.right);
 			break;
+		case 'call':
+			sql.arguments = sql.arguments.map(reduce);
+			break;
 	}
 	return sql;
 }
