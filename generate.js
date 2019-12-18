@@ -28,6 +28,18 @@ function generate(sql) {
 					where = `(${where})`;
 				select += ` where ${where}`;
 			}
+			if (sql.group) {
+				var group = generate(sql.group);
+				if (sql.group.type == 'select')
+					group = `(${group})`;
+				select += ` group by ${group}`;
+			}
+			if (sql.having) {
+				var having = generate(sql.having);
+				if (sql.having.type == 'select')
+					having = `(${having})`;
+				select += ` having by ${having}`;
+			}
 			if (sql.order) {
 				var order = generate(sql.order);
 				if (sql.order.type == 'select')

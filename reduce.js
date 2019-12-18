@@ -26,11 +26,14 @@ function reduce(sql) {
 			sql.where && sql.from[0].where ||
 			(sql.limit || sql.offset) && (sql.from[0].limit || sql.from[0].offset) ||
 			sql.where && (sql.from[0].limit || sql.from[0].offset) ||
+			sql.group && sql.from[0].group ||
 			sql.order && (sql.from[0].limit || sql.from[0].offset)
 		)
 	) {
 		sql.from[0].with = sql.with || sql.from[0].with;
 		sql.from[0].where = sql.where || sql.from[0].where;
+		if (sql.from[0].group)
+			sql.from[0].having = sql.where;
 		sql.from[0].order = sql.order || sql.from[0].order;
 		sql.from[0].limit = sql.limit || sql.from[0].limit;
 		sql.from[0].offset = sql.offset || sql.from[0].offset;
@@ -54,6 +57,10 @@ function reduce(sql) {
 			sql.from = sql.from.map(reduce);
 			if (sql.where)
 				sql.where = reduce(sql.where);
+			if (sql.group)
+				sql.group = reduce(sql.group);
+			if (sql.having)
+				sql.having = reduce(sql.having);
 			if (sql.order)
 				sql.order = reduce(sql.order);
 			if (sql.limit)
