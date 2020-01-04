@@ -2,7 +2,13 @@ var operator = require('./operator');
 function generate(sql) {
 	switch (sql.type) {
 		case 'select':
-			var select = `select ${sql.field.map(generate).join(',')}`;
+			var field = sql.field.map(sql => {
+				var s = generate(sql);
+				if (sql.type == 'select')
+					s = `(${s})`;
+				return s;
+			});
+			var select = `select ${field.join(',')}`;
 			if (sql.from) {
 				var from = generate(sql.from);
 				if (sql.from.type == 'select')	// "select * from (a) a" is invalid
