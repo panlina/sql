@@ -4,8 +4,8 @@ function* traverse(sql) {
 		case 'select':
 			if (sql.with)
 				yield* traverse(sql.with.value);
-			if (sql.from)
-				yield* traverse(sql.from);
+			for (var from of sql.from)
+				yield* traverse(from);
 			if (sql.where)
 				yield* traverse(sql.where);
 			for (var field of sql.field)

@@ -9,13 +9,16 @@ function generate(sql) {
 				return s;
 			});
 			var select = `select ${field.join(',')}`;
-			if (sql.from) {
-				var from = generate(sql.from);
-				if (sql.from.type == 'select')	// "select * from (a) a" is invalid
-					from = `(${from})`;
-				if (sql.from.alias)
-					from += ` ${sql.from.alias}`;
-				select += ` from ${from}`;
+			if (sql.from.length) {
+				var from = sql.from.map(sql => {
+					var s = generate(sql);
+					if (sql.type == 'select')
+						s = `(${s})`;
+					if (sql.alias)
+						s += ` ${sql.alias}`;
+					return s;
+				});
+				select += ` from ${from.join(',')}`;
 			}
 			if (sql.where) {
 				var where = generate(sql.where);
