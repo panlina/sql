@@ -48,7 +48,10 @@ function generate(sql) {
 		case 'call':
 			return `${generate(sql.callee)}(${sql.arguments.map(generate).join(',')})`;
 		case 'name':
-			return sql.identifier;
+			var name = sql.identifier;
+			if (sql.qualifier)
+				name = `${sql.qualifier}.${name}`;
+			return name;
 		case 'literal':
 			return JSON.stringify(sql.value);
 	}
