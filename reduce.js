@@ -30,7 +30,7 @@ function reduce(sql) {
 				sql.right = reduce(sql.right);
 			break;
 		case 'call':
-			sql.arguments = sql.arguments.map(reduce);
+			sql.argument = sql.argument.map(reduce);
 			break;
 	}
 	return sql;
