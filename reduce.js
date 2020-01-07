@@ -1,3 +1,4 @@
+var traverse = require('./traverse');
 function reduce(sql) {
 	if (
 		sql.type == 'select' &&
@@ -11,7 +12,15 @@ function reduce(sql) {
 		sql.from.with = sql.with || sql.from.with;
 		sql.from.where = sql.where || sql.from.where;
 		sql.from.field = sql.field[0].identifier != '*' ? sql.field : sql.from.field
+		if (sql.from.with) substituteNameQualifier(sql.from.with, sql.from.alias, sql.from.from.alias);
+		if (sql.from.where) substituteNameQualifier(sql.from.where, sql.from.alias, sql.from.from.alias);
+		sql.from.field.forEach(field => substituteNameQualifier(field, sql.from.alias, sql.from.from.alias));
 		return reduce(sql.from);
+	}
+	function substituteNameQualifier(sql, a, b) {
+		for (var sql of traverse(sql))
+			if (sql.type == 'name' && sql.qualifier == a)
+				sql.qualifier = b;
 	}
 	switch (sql.type) {
 		case 'select':
