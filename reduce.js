@@ -2,8 +2,9 @@ var traverse = require('./traverse');
 function reduce(sql) {
 	if (
 		sql.type == 'select' &&
-		sql.from[0] &&
+		sql.from.length == 1 &&
 		sql.from[0].type == 'select' &&
+		sql.from[0].from.length == 1 &&
 		!(
 			sql.with && sql.from[0].with ||
 			sql.where && sql.from[0].where
