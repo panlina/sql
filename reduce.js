@@ -13,6 +13,7 @@ function reduce(sql) {
 		var field = argument.field[0];
 		argument.field[0] = call.field[0];
 		call.field[0].argument[0] = field;
+		argument.as = call.as;
 		return reduce(argument);
 	}
 	if (
@@ -28,6 +29,7 @@ function reduce(sql) {
 		sql.from[0].with = sql.with || sql.from[0].with;
 		sql.from[0].where = sql.where || sql.from[0].where;
 		sql.from[0].field = sql.field[0].identifier != '*' ? sql.field : sql.from[0].field
+		sql.from[0].as = sql.as;
 		if (sql.from[0].with) substituteNameQualifier(sql.from[0].with, sql.from[0].alias, sql.from[0].from[0].alias);
 		if (sql.from[0].where) substituteNameQualifier(sql.from[0].where, sql.from[0].alias, sql.from[0].from[0].alias);
 		sql.from[0].field.forEach(field => substituteNameQualifier(field, sql.from[0].alias, sql.from[0].from[0].alias));

@@ -6,6 +6,8 @@ function generate(sql) {
 				var s = generate(sql);
 				if (sql.type == 'select')
 					s = `(${s})`;
+				if (sql.as)
+					s += ` ${sql.as}`;
 				return s;
 			});
 			var select = `select ${field.join(',')}`;
