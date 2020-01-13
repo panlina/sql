@@ -4,6 +4,21 @@ function reduce(sql) {
 		sql.type == 'select' &&
 		sql.from.length == 1 &&
 		sql.from[0].type == 'select' &&
+		sql.field[0].type == 'call' &&
+		sql.field[0].callee.identifier in aggregator &&
+		sql.field[0].argument[0].identifier == '*'
+	) {
+		var call = sql;
+		var argument = sql.from[0];
+		var field = argument.field[0];
+		argument.field[0] = call.field[0];
+		call.field[0].argument[0] = field;
+		return reduce(argument);
+	}
+	if (
+		sql.type == 'select' &&
+		sql.from.length == 1 &&
+		sql.from[0].type == 'select' &&
 		sql.from[0].from.length == 1 &&
 		!(
 			sql.with && sql.from[0].with ||
@@ -44,4 +59,5 @@ function reduce(sql) {
 	}
 	return sql;
 }
+var aggregator = { sum: 0, avg: 0, min: 0, max: 0 };
 module.exports = reduce;
