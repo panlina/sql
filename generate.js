@@ -49,7 +49,11 @@ function generate(sql) {
 				).precedence;
 			}
 		case 'call':
-			return `${generate(sql.callee)}(${sql.argument.map(generate).join(',')})`;
+			return `${generate(sql.callee)}(${sql.argument.map(argument => {
+				if (argument.type == 'select')
+					argument = `(${argument})`;
+				return generate(argument);
+			}).join(',')})`;
 		case 'name':
 			var name = sql.identifier;
 			if (sql.qualifier)
