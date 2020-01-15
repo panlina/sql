@@ -35,7 +35,7 @@ function liftSelect(sql) {
 			left: sql.where,
 			right: field.where
 		} : field.where;
-	sql.field[0] = field.field[0];
+	sql.field = field.field;
 }
 function substituteRowTableField(sql, a, b) {
 	return substitute(sql, sql => {
