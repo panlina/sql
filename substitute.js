@@ -11,6 +11,12 @@ function substitute(sql, f) {
 					sql.where = substitute(sql.where);
 				sql.field = sql.field.map(substitute);
 				break;
+			case 'union':
+				if (sql.left)
+					sql.left = substitute(sql.left);
+				if (sql.right)
+					sql.right = substitute(sql.right);
+				break;
 			case 'operation':
 				if (sql.left)
 					sql.left = substitute(sql.left);
