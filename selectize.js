@@ -1,5 +1,5 @@
 function selectize(sql) {
-	if (sql.type != 'select')
+	if (sql.type != 'select' && sql.type != 'union')
 		if (sql.type == 'name' && sql.kind != 'scalar')
 			sql = {
 				type: 'select',

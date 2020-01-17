@@ -11,6 +11,12 @@ function* traverse(sql) {
 			for (var field of sql.field)
 				yield* traverse(field);
 			break;
+		case 'union':
+			if (sql.left)
+				yield* traverse(sql.left);
+			if (sql.right)
+				yield* traverse(sql.right);
+			break;
 		case 'operation':
 			if (sql.left)
 				yield* traverse(sql.left);

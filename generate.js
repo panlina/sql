@@ -31,6 +31,12 @@ function generate(sql) {
 			if (sql.with)
 				select = `with ${sql.with.name} as (${generate(sql.with.value)}) ${select}`;
 			return select;
+		case 'union':
+			var left = generate(sql.left);
+			var right = generate(sql.right);
+			if (sql.right.type == 'union')
+				right = `(${right})`;
+			return `${left} union ${right}`;
 		case 'operation':
 			if (sql.left) {
 				var left = generate(sql.left);

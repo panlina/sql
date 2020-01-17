@@ -49,6 +49,12 @@ function reduce(sql) {
 				sql.where = reduce(sql.where);
 			sql.field = sql.field.map(reduce);
 			break;
+		case 'union':
+			if (sql.left)
+				sql.left = reduce(sql.left);
+			if (sql.right)
+				sql.right = reduce(sql.right);
+			break;
 		case 'operation':
 			if (sql.left)
 				sql.left = reduce(sql.left);
