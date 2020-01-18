@@ -23,11 +23,15 @@ function reduce(sql) {
 		sql.from[0].from.length == 1 &&
 		!(
 			sql.with && sql.from[0].with ||
-			sql.where && sql.from[0].where
+			sql.where && sql.from[0].where ||
+			(sql.limit || sql.offset) && (sql.from[0].limit || sql.from[0].offset) ||
+			sql.where && (sql.from[0].limit || sql.from[0].offset)
 		)
 	) {
 		sql.from[0].with = sql.with || sql.from[0].with;
 		sql.from[0].where = sql.where || sql.from[0].where;
+		sql.from[0].limit = sql.limit || sql.from[0].limit;
+		sql.from[0].offset = sql.offset || sql.from[0].offset;
 		sql.from[0].field = sql.field[0].identifier != '*' ? sql.field : sql.from[0].field
 		sql.from[0].as = sql.as;
 		if (sql.from[0].with) substituteNameQualifier(sql.from[0].with, sql.from[0].alias, sql.from[0].from[0].alias);
@@ -47,6 +51,10 @@ function reduce(sql) {
 			sql.from = sql.from.map(reduce);
 			if (sql.where)
 				sql.where = reduce(sql.where);
+			if (sql.limit)
+				sql.limit = reduce(sql.limit);
+			if (sql.offset)
+				sql.offset = reduce(sql.offset);
 			sql.field = sql.field.map(reduce);
 			break;
 		case 'union':

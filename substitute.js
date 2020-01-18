@@ -9,6 +9,10 @@ function substitute(sql, f) {
 				sql.from = sql.from.map(substitute);
 				if (sql.where)
 					sql.where = substitute(sql.where);
+				if (sql.limit)
+					sql.limit = substitute(sql.limit);
+				if (sql.offset)
+					sql.offset = substitute(sql.offset);
 				sql.field = sql.field.map(substitute);
 				break;
 			case 'union':

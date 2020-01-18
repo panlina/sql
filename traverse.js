@@ -8,6 +8,10 @@ function* traverse(sql) {
 				yield* traverse(from);
 			if (sql.where)
 				yield* traverse(sql.where);
+			if (sql.limit)
+				yield* traverse(sql.limit);
+			if (sql.offset)
+				yield* traverse(sql.offset);
 			for (var field of sql.field)
 				yield* traverse(field);
 			break;

@@ -28,6 +28,18 @@ function generate(sql) {
 					where = `(${where})`;
 				select += ` where ${where}`;
 			}
+			if (sql.limit) {
+				var limit = generate(sql.limit);
+				if (sql.limit.type == 'select')
+					limit = `(${limit})`;
+				select += ` limit ${limit}`;
+			}
+			if (sql.offset) {
+				var offset = generate(sql.offset);
+				if (sql.offset.type == 'select')
+					offset = `(${offset})`;
+				select += ` offset ${offset}`;
+			}
 			if (sql.with)
 				select = `with ${sql.with.name} as (${generate(sql.with.value)}) ${select}`;
 			return select;
