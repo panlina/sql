@@ -28,6 +28,12 @@ function generate(sql) {
 					where = `(${where})`;
 				select += ` where ${where}`;
 			}
+			if (sql.order) {
+				var order = generate(sql.order);
+				if (sql.order.type == 'select')
+					order = `(${order})`;
+				select += ` order by ${order}`;
+			}
 			if (sql.limit) {
 				var limit = generate(sql.limit);
 				if (sql.limit.type == 'select')

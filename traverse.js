@@ -12,6 +12,8 @@ function* traverse(sql) {
 				yield* traverse(sql.limit);
 			if (sql.offset)
 				yield* traverse(sql.offset);
+			if (sql.order)
+				yield* traverse(sql.order);
 			for (var field of sql.field)
 				yield* traverse(field);
 			break;

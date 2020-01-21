@@ -25,17 +25,20 @@ function reduce(sql) {
 			sql.with && sql.from[0].with ||
 			sql.where && sql.from[0].where ||
 			(sql.limit || sql.offset) && (sql.from[0].limit || sql.from[0].offset) ||
-			sql.where && (sql.from[0].limit || sql.from[0].offset)
+			sql.where && (sql.from[0].limit || sql.from[0].offset) ||
+			sql.order && (sql.from[0].limit || sql.from[0].offset)
 		)
 	) {
 		sql.from[0].with = sql.with || sql.from[0].with;
 		sql.from[0].where = sql.where || sql.from[0].where;
+		sql.from[0].order = sql.order || sql.from[0].order;
 		sql.from[0].limit = sql.limit || sql.from[0].limit;
 		sql.from[0].offset = sql.offset || sql.from[0].offset;
 		sql.from[0].field = sql.field[0].identifier != '*' ? sql.field : sql.from[0].field
 		sql.from[0].as = sql.as;
 		if (sql.from[0].with) substituteNameQualifier(sql.from[0].with, sql.from[0].alias, sql.from[0].from[0].alias);
 		if (sql.from[0].where) substituteNameQualifier(sql.from[0].where, sql.from[0].alias, sql.from[0].from[0].alias);
+		if (sql.from[0].order) substituteNameQualifier(sql.from[0].order, sql.from[0].alias, sql.from[0].from[0].alias);
 		sql.from[0].field.forEach(field => substituteNameQualifier(field, sql.from[0].alias, sql.from[0].from[0].alias));
 		return reduce(sql.from[0]);
 	}
@@ -51,6 +54,8 @@ function reduce(sql) {
 			sql.from = sql.from.map(reduce);
 			if (sql.where)
 				sql.where = reduce(sql.where);
+			if (sql.order)
+				sql.order = reduce(sql.order);
 			if (sql.limit)
 				sql.limit = reduce(sql.limit);
 			if (sql.offset)
