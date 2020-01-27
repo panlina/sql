@@ -66,7 +66,10 @@ function generate(sql) {
 				if (sql.right.type == 'operation' && operatorPrecedence(sql.right) >= operatorPrecedence(sql) || sql.right.type == 'select' || sql.right.type == 'union')
 					right = `(${right})`;
 			}
-			return `${left || ''}${sql.operator}${right || ''}`;
+			var op = sql.operator;
+			if (op == 'in')
+				op = ` ${op} `;
+			return `${left || ''}${op}${right || ''}`;
 			function operatorPrecedence(expression) {
 				return operator.resolve(
 					expression.operator,
