@@ -4,7 +4,7 @@ function generate(sql) {
 		case 'select':
 			var field = sql.field.map(sql => {
 				var s = generate(sql);
-				if (sql.type == 'select')
+				if (sql.type == 'select' || sql.type == 'union')
 					s = `(${s})`;
 				if (sql.as)
 					s += ` ${sql.as}`;
@@ -14,7 +14,7 @@ function generate(sql) {
 			if (sql.from.length) {
 				var from = sql.from.map(sql => {
 					var s = generate(sql);
-					if (sql.type == 'select')
+					if (sql.type == 'select' || sql.type == 'union')
 						s = `(${s})`;
 					if (sql.alias)
 						s += ` ${sql.alias}`;
@@ -24,25 +24,25 @@ function generate(sql) {
 			}
 			if (sql.where) {
 				var where = generate(sql.where);
-				if (sql.where.type == 'select')
+				if (sql.where.type == 'select' || sql.where.type == 'union')
 					where = `(${where})`;
 				select += ` where ${where}`;
 			}
 			if (sql.order) {
 				var order = generate(sql.order);
-				if (sql.order.type == 'select')
+				if (sql.order.type == 'select' || sql.order.type == 'union')
 					order = `(${order})`;
 				select += ` order by ${order}`;
 			}
 			if (sql.limit) {
 				var limit = generate(sql.limit);
-				if (sql.limit.type == 'select')
+				if (sql.limit.type == 'select' || sql.limit.type == 'union')
 					limit = `(${limit})`;
 				select += ` limit ${limit}`;
 			}
 			if (sql.offset) {
 				var offset = generate(sql.offset);
-				if (sql.offset.type == 'select')
+				if (sql.offset.type == 'select' || sql.offset.type == 'union')
 					offset = `(${offset})`;
 				select += ` offset ${offset}`;
 			}
@@ -58,12 +58,12 @@ function generate(sql) {
 		case 'operation':
 			if (sql.left) {
 				var left = generate(sql.left);
-				if (sql.left.type == 'operation' && operatorPrecedence(sql.left) > operatorPrecedence(sql) || sql.left.type == 'select')
+				if (sql.left.type == 'operation' && operatorPrecedence(sql.left) > operatorPrecedence(sql) || sql.left.type == 'select' || sql.left.type == 'union')
 					left = `(${left})`;
 			}
 			if (sql.right) {
 				var right = generate(sql.right);
-				if (sql.right.type == 'operation' && operatorPrecedence(sql.right) >= operatorPrecedence(sql) || sql.right.type == 'select')
+				if (sql.right.type == 'operation' && operatorPrecedence(sql.right) >= operatorPrecedence(sql) || sql.right.type == 'select' || sql.right.type == 'union')
 					right = `(${right})`;
 			}
 			return `${left || ''}${sql.operator}${right || ''}`;
@@ -76,7 +76,7 @@ function generate(sql) {
 			}
 		case 'call':
 			return `${generate(sql.callee)}(${sql.argument.map(argument => {
-				if (argument.type == 'select')
+				if (argument.type == 'select' || argument.type == 'union')
 					argument = `(${argument})`;
 				return generate(argument);
 			}).join(',')})`;
