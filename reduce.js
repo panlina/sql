@@ -23,10 +23,23 @@ function reduce(sql) {
 		sql.from[0].from.length == 1 &&
 		!(
 			sql.with && sql.from[0].with ||
-			sql.where && sql.from[0].where ||
+			sql.where && (
+				sql.from[0].where ||
+				sql.from[0].limit || sql.from[0].offset ||
+				sql.from[0].field[0].as
+			) ||
+			sql.order && (
+				sql.from[0].order ||
+				sql.from[0].limit || sql.from[0].offset ||
+				sql.from[0].field[0].as
+			) ||
 			(sql.limit || sql.offset) && (sql.from[0].limit || sql.from[0].offset) ||
-			sql.where && (sql.from[0].limit || sql.from[0].offset) ||
-			sql.order && (sql.from[0].limit || sql.from[0].offset)
+			sql.field[0].identifier != '*' &&
+			!(
+				sql.field[0].type == 'call' &&
+				sql.field[0].callee.identifier == 'count'
+			) &&
+			sql.from[0].field[0].as
 		)
 	) {
 		sql.from[0].with = sql.with || sql.from[0].with;
