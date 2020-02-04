@@ -39,7 +39,8 @@ function reduce(sql) {
 				sql.field[0].type == 'call' &&
 				sql.field[0].callee.identifier == 'count'
 			) &&
-			sql.from[0].field[0].as
+			sql.from[0].field[0].as ||
+			sql.field[0].identifier != '*' && sql.from[0].distinct
 		)
 	) {
 		sql.from[0].with = sql.with || sql.from[0].with;
@@ -48,6 +49,7 @@ function reduce(sql) {
 		sql.from[0].limit = sql.limit || sql.from[0].limit;
 		sql.from[0].offset = sql.offset || sql.from[0].offset;
 		sql.from[0].field = sql.field[0].identifier != '*' ? sql.field : sql.from[0].field
+		sql.from[0].distinct = sql.distinct || sql.from[0].distinct;
 		sql.from[0].as = sql.as;
 		if (sql.from[0].with) substituteNameQualifier(sql.from[0].with, sql.from[0].alias, sql.from[0].from[0].alias);
 		if (sql.from[0].where) substituteNameQualifier(sql.from[0].where, sql.from[0].alias, sql.from[0].from[0].alias);

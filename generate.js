@@ -10,7 +10,10 @@ function generate(sql) {
 					s += ` ${sql.as}`;
 				return s;
 			});
-			var select = `select ${field.join(',')}`;
+			var select = field.join(',');
+			if (sql.distinct)
+				select = `distinct ${select}`;
+			var select = `select ${select}`;
 			if (sql.from.length) {
 				var from = sql.from.map(sql => {
 					var s = generate(sql);
