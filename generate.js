@@ -57,7 +57,8 @@ function generate(sql) {
 			var right = generate(sql.right);
 			if (sql.right.type == 'union')
 				right = `(${right})`;
-			return `${left} union ${right}`;
+			var op = sql.all ? 'union all' : 'union';
+			return `${left} ${op} ${right}`;
 		case 'operation':
 			if (sql.left) {
 				var left = generate(sql.left);
