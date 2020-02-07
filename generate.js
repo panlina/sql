@@ -36,6 +36,8 @@ function generate(sql) {
 				if (sql.order.type == 'select' || sql.order.type == 'union')
 					order = `(${order})`;
 				select += ` order by ${order}`;
+				if (sql.direction != undefined)
+					select += ` ${{ false: "asc", true: "desc" }[sql.direction]}`;
 			}
 			if (sql.limit) {
 				var limit = generate(sql.limit);

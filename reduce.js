@@ -46,6 +46,7 @@ function reduce(sql) {
 		sql.from[0].with = sql.with || sql.from[0].with;
 		sql.from[0].where = sql.where || sql.from[0].where;
 		sql.from[0].order = sql.order || sql.from[0].order;
+		sql.from[0].direction = sql.direction || sql.from[0].direction;
 		sql.from[0].limit = sql.limit || sql.from[0].limit;
 		sql.from[0].offset = sql.offset || sql.from[0].offset;
 		sql.from[0].field = sql.field[0].identifier != '*' ? sql.field : sql.from[0].field
