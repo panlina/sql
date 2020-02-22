@@ -7,7 +7,7 @@ function generate(sql) {
 				if (sql.type == 'select' || sql.type == 'union')
 					s = `(${s})`;
 				if (sql.as != undefined)
-					s += ` ${sql.as}`;
+					s += ` ${identifier(sql.as)}`;
 				return s;
 			});
 			var select = field.join(',');
@@ -20,7 +20,7 @@ function generate(sql) {
 					if (sql.type == 'select' || sql.type == 'union')
 						s = `(${s})`;
 					if (sql.alias)
-						s += ` ${sql.alias}`;
+						s += ` ${identifier(sql.alias)}`;
 					return s;
 				});
 				select += ` from ${from.join(',')}`;
@@ -92,10 +92,15 @@ function generate(sql) {
 		case 'name':
 			var name = sql.identifier;
 			if (sql.qualifier)
-				name = `${sql.qualifier}.${name}`;
+				name = `${identifier(sql.qualifier)}.${identifier(name)}`;
 			return name;
 		case 'literal':
 			return JSON.stringify(sql.value);
+	}
+	function identifier(s) {
+		if (!/^[a-z_$][\w_$]*$/i.test(s))
+			s = `\`${s}\``;
+		return s;
 	}
 }
 module.exports = generate;
