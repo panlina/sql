@@ -6,7 +6,7 @@ function generate(sql) {
 				var s = generate(sql);
 				if (sql.type == 'select' || sql.type == 'union')
 					s = `(${s})`;
-				if (sql.as)
+				if (sql.as != undefined)
 					s += ` ${sql.as}`;
 				return s;
 			});
