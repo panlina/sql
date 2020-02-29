@@ -2,12 +2,12 @@ var operator = require('./operator');
 function generate(sql) {
 	switch (sql.type) {
 		case 'select':
-			var field = sql.field.map(sql => {
-				var s = generate(sql);
-				if (sql.type == 'select' || sql.type == 'union')
+			var field = sql.field.map(field => {
+				var s = generate(field);
+				if (field.type == 'select' || field.type == 'union')
 					s = `(${s})`;
-				if (sql.as != undefined)
-					s += ` ${identifier(sql.as)}`;
+				if (field.as != undefined)
+					s += ` ${identifier(field.as)}`;
 				return s;
 			});
 			var select = field.join(',');
@@ -15,12 +15,12 @@ function generate(sql) {
 				select = `distinct ${select}`;
 			var select = `select ${select}`;
 			if (sql.from.length) {
-				var from = sql.from.map(sql => {
-					var s = generate(sql);
-					if (sql.type == 'select' || sql.type == 'union')
+				var from = sql.from.map(from => {
+					var s = generate(from);
+					if (from.type == 'select' || from.type == 'union')
 						s = `(${s})`;
-					if (sql.alias)
-						s += ` ${identifier(sql.alias)}`;
+					if (from.alias)
+						s += ` ${identifier(from.alias)}`;
 					return s;
 				});
 				select += ` from ${from.join(',')}`;
