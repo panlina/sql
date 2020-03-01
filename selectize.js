@@ -10,7 +10,8 @@ function selectize(sql) {
 			sql = {
 				type: 'select',
 				field: [sql],
-				from: []
+				from: [],
+				kind: 'scalar'
 			};
 	return sql;
 }
