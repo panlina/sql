@@ -26,12 +26,12 @@ function reduce(sql) {
 			sql.where && (
 				sql.from[0].where ||
 				sql.from[0].limit || sql.from[0].offset ||
-				sql.from[0].field[0].as
+				sql.from[0].field[0].as != undefined
 			) ||
 			sql.order && (
 				sql.from[0].order ||
 				sql.from[0].limit || sql.from[0].offset ||
-				sql.from[0].field[0].as
+				sql.from[0].field[0].as != undefined
 			) ||
 			(sql.limit || sql.offset) && (sql.from[0].limit || sql.from[0].offset) ||
 			sql.field[0].identifier != '*' &&
@@ -39,7 +39,7 @@ function reduce(sql) {
 				sql.field[0].type == 'call' &&
 				sql.field[0].callee.identifier == 'count'
 			) &&
-			sql.from[0].field[0].as ||
+			sql.from[0].field[0].as != undefined ||
 			sql.field[0].identifier != '*' && sql.from[0].distinct
 		)
 	) {
