@@ -56,6 +56,7 @@ function reduce(sql) {
 		if (sql.from[0].where) substituteNameQualifier(sql.from[0].where, sql.from[0].alias, sql.from[0].from[0].alias);
 		if (sql.from[0].order) substituteNameQualifier(sql.from[0].order, sql.from[0].alias, sql.from[0].from[0].alias);
 		sql.from[0].field.forEach(field => substituteNameQualifier(field, sql.from[0].alias, sql.from[0].from[0].alias));
+		sql.from[0].alias = sql.alias;
 		sql.from[0].kind = sql.field[0].identifier != '*' ? sql.kind : sql.from[0].kind;
 		return reduce(sql.from[0]);
 	}
