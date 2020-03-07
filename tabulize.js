@@ -4,8 +4,7 @@ function tabulize(sql) {
 			sql = {
 				type: 'select',
 				field: [sql],
-				from: [],
-				kind: 'scalar'
+				from: []
 			};
 	return sql;
 }

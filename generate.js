@@ -6,9 +6,7 @@ function generate(sql) {
 				var s = generate(field);
 				if (field.type == 'select' || field.type == 'union')
 					s = `(${s})`;
-				if (sql.kind == 'scalar' || sql.kind == '[scalar]')
-					s += " ``";
-				else if (field.as != undefined)
+				if (field.as != undefined)
 					s += ` ${identifier(field.as)}`;
 				return s;
 			});
