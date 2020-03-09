@@ -85,9 +85,10 @@ function generate(sql) {
 			}
 		case 'call':
 			return `${generate(sql.callee)}(${sql.argument.map(argument => {
+				var $argument = generate(argument);
 				if (argument.type == 'select' || argument.type == 'union')
-					argument = `(${argument})`;
-				return generate(argument);
+					$argument = `(${$argument})`;
+				return $argument;
 			}).join(',')})`;
 		case 'name':
 			var name = sql.identifier;
