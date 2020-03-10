@@ -56,3 +56,31 @@ it('generate', function () {
 	};
 	assert.equal(generate(sql), 'select if((0+1)*+2/t.a in b&&!false,(select * from t _0),\"a\\\\\\nc\") ``');
 });
+it('generate', function () {
+	var union = {
+		type: 'union',
+		all: true,
+		left: { type: 'select', field: [{ type: 'literal', value: 0, as: '' }], from: [] },
+		right: { type: 'select', field: [{ type: 'literal', value: 1, as: '' }], from: [] }
+	};
+	var exists = {
+		type: 'operation',
+		operator: 'exists',
+		right: { type: 'select', field: [{ type: 'literal', value: 0, as: '' }], from: [] }
+	};
+	var e = {
+		type: 'select',
+		with: { name: 'a', value: union },
+		field: [{ type: 'name', identifier: '*' }],
+		from: [
+			{ type: 'name', identifier: 't', alias: '_0' },
+			{ type: 'name', identifier: 's', alias: '_1' }
+		],
+		where: exists,
+		order: { type: 'literal', value: 0 },
+		direction: true,
+		limit: { type: 'literal', value: 0 },
+		offset: { type: 'literal', value: 10 }
+	}
+	assert.equal(generate(e), 'with a as (select 0 `` union all select 1 ``) select * from t _0,s _1 where exists(select 0 ``) order by 0 desc limit 0 offset 10');
+});
