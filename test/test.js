@@ -84,3 +84,34 @@ it('generate', function () {
 	}
 	assert.equal(generate(e), 'with a as (select 0 `` union all select 1 ``) select * from t _0,s _1 where exists(select 0 ``) order by 0 desc limit 0 offset 10');
 });
+var reduce = require('../reduce');
+it('reduce', function () {
+	var sql = {
+		type: 'select',
+		field: [{ type: 'name', identifier: '*' }],
+		from: [{ type: 'name', identifier: 't', alias: '_0' }],
+		where: { type: 'literal', value: 0 }
+	};
+	sql = {
+		type: 'select',
+		field: [{ type: 'name', identifier: '*' }],
+		from: [Object.assign(sql, { alias: '_1' })],
+		limit: { type: 'literal', value: 10 }
+	};
+	assert.equal(generate(reduce(sql)), "select * from t _0 where 0 limit 10");
+});
+it('reduce', function () {
+	var sql = {
+		type: 'select',
+		field: [{ type: 'name', identifier: '*' }],
+		from: [{ type: 'name', identifier: 't', alias: '_0' }],
+		limit: { type: 'literal', value: 10 }
+	};
+	sql = {
+		type: 'select',
+		field: [{ type: 'name', identifier: '*' }],
+		from: [Object.assign(sql, { alias: '_1' })],
+		where: { type: 'literal', value: 0 }
+	};
+	assert.equal(generate(reduce(sql)), "select * from (select * from t _0 limit 10) _1 where 0");
+});
