@@ -115,3 +115,31 @@ it('reduce', function () {
 	};
 	assert.equal(generate(reduce(sql)), "select * from (select * from t _0 limit 10) _1 where 0");
 });
+var decorrelate = require('../decorrelate');
+it('decorrelate', function () {
+	var sql = {
+		type: 'select',
+		field: [{
+			type: 'select',
+			field: [{ type: 'name', qualifier: '_1', identifier: '*' }],
+			from: [{ type: 'name', identifier: 's', alias: '_1' }],
+			where: {
+				type: 'operation',
+				operator: '=',
+				left: {
+					type: 'name',
+					qualifier: '_1',
+					identifier: 'id'
+				},
+				right: {
+					type: 'name',
+					qualifier: '_0',
+					identifier: 's'
+				}
+			}
+		}],
+		from: [{ type: 'name', identifier: 't', alias: '_0' }]
+	};
+	decorrelate(sql);
+	assert.equal(generate(sql), "select _1.`*` from t _0,s _1 where _1.id=_0.s");
+});
