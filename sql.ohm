@@ -1,0 +1,4 @@
+sql {
+	Expression = number
+	number = digit+
+}

@@ -4,7 +4,8 @@
   "author": "Jack Lu <jacklu@jacklu.me>",
   "license": "ISC",
   "dependencies": {
-    "lodash.groupby": "^4.6.0"
+    "lodash.groupby": "^4.6.0",
+    "ohm-js": "^0.14.0"
   },
   "devDependencies": {
     "mocha": "^7.1.0"
