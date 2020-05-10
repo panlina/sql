@@ -3,8 +3,10 @@ var assert = require('assert');
 var parse = require('../parse');
 var Expression = require('../Expression');
 it('parse', function () {
-	var sql = parse('123');
-	assert.deepEqual(sql, new Expression.Literal(123));
+	var sql = parse('1.1');
+	assert.deepEqual(sql, new Expression.Literal(1.1));
+	var sql = parse('"abc\\n"');
+	assert.deepEqual(sql, new Expression.Literal("abc\n"));
 });
 var generate = require('../generate');
 it('generate', function () {

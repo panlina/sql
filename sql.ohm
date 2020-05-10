@@ -1,4 +1,8 @@
 sql {
-	Expression = number
-	number = digit+
+	Expression = ExpressionAtom
+	ExpressionAtom = number | string
+	number = digit+ ("." digit+)?
+	string = "\"" char* "\""
+	char = ~("\""|"\\") any	-- literal
+		| "\\" ("\"" | "\\" | "b" | "f" | "n" | "r" | "t" | "v")	-- escaped
 }
