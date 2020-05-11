@@ -11,5 +11,14 @@ class Literal extends Expression {
 	}
 }
 
+class Name extends Expression {
+	constructor(identifier, qualifier) {
+		super('name');
+		this.identifier = identifier;
+		this.qualifier = qualifier;
+	}
+}
+
 module.exports = Expression;
 module.exports.Literal = Literal;
+module.exports.Name = Name;

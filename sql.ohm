@@ -1,6 +1,11 @@
 sql {
 	Expression = ExpressionAtom
-	ExpressionAtom = number | string
+	ExpressionAtom =
+		ExpressionName
+		| number
+		| string
+	ExpressionName = (identifier ".")? identifier
+	identifier = &(letter|"_") (alnum|"_")+
 	number = digit+ ("." digit+)?
 	string = "\"" char* "\""
 	char = ~("\""|"\\") any	-- literal

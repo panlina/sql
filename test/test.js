@@ -7,6 +7,10 @@ it('parse', function () {
 	assert.deepEqual(sql, new Expression.Literal(1.1));
 	var sql = parse('"abc\\n"');
 	assert.deepEqual(sql, new Expression.Literal("abc\n"));
+	var sql = parse('a');
+	assert.deepEqual(sql, new Expression.Name('a'));
+	var sql = parse('a.b');
+	assert.deepEqual(sql, new Expression.Name('b', 'a'));
 });
 var generate = require('../generate');
 it('generate', function () {
