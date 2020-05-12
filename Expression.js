@@ -19,6 +19,16 @@ class Name extends Expression {
 	}
 }
 
+class Operation extends Expression {
+	constructor(operator, left, right) {
+		super('operation');
+		this.operator = operator;
+		this.left = left;
+		this.right = right;
+	}
+}
+
 module.exports = Expression;
 module.exports.Literal = Literal;
 module.exports.Name = Name;
+module.exports.Operation = Operation;

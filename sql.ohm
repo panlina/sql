@@ -1,5 +1,26 @@
 sql {
-	Expression = ExpressionAtom
+	Expression = ExpressionOr
+	ExpressionOr =
+		ExpressionOr "||" ExpressionAnd	-- or
+		| ExpressionAnd
+	ExpressionAnd =
+		ExpressionAnd "&&" ExpressionNot	-- and
+		| ExpressionNot
+	ExpressionNot =
+		"!" ExpressionNot	-- not
+		| ExpressionRelation
+	ExpressionRelation =
+		ExpressionRelation ("<="|"="|">="|"<"|"!="|">"|"in") ExpressionAdd	-- relation
+		| ExpressionAdd
+	ExpressionAdd =
+		ExpressionAdd ("+"|"-") ExpressionMultiply	-- add
+		| ExpressionMultiply
+	ExpressionMultiply =
+		ExpressionMultiply ("*"|"/") ExpressionAddUnary	-- multiply
+		| ExpressionAddUnary
+	ExpressionAddUnary =
+		("+"|"-") ExpressionAddUnary	-- add
+		| ExpressionAtom
 	ExpressionAtom =
 		ExpressionName
 		| number

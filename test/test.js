@@ -11,6 +11,26 @@ it('parse', function () {
 	assert.deepEqual(sql, new Expression.Name('a'));
 	var sql = parse('a.b');
 	assert.deepEqual(sql, new Expression.Name('b', 'a'));
+	var sql = parse('1+2<3&&!0');
+	assert.deepEqual(sql,
+		new Expression.Operation(
+			'&&',
+			new Expression.Operation(
+				'<',
+				new Expression.Operation(
+					'+',
+					new Expression.Literal(1),
+					new Expression.Literal(2)
+				),
+				new Expression.Literal(3)
+			),
+			new Expression.Operation(
+				'!',
+				undefined,
+				new Expression.Literal(0)
+			)
+		)
+	);
 });
 var generate = require('../generate');
 it('generate', function () {

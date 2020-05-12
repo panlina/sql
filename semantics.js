@@ -6,8 +6,38 @@ var semantics = grammar.createSemantics().addOperation('parse', {
 	char_literal: x => x.sourceString,
 	char_escaped: (backslash, x) => escape[x.sourceString],
 	identifier: (_, x) => x.sourceString,
-	ExpressionName: (qualifier, dot, identifier) => new Expression.Name(identifier.parse(), qualifier.children[0] ? qualifier.children[0].parse() : null)
+	ExpressionName: (qualifier, dot, identifier) => new Expression.Name(identifier.parse(), qualifier.children[0] ? qualifier.children[0].parse() : null),
+	ExpressionAdd_add: binary,
+	ExpressionMultiply_multiply: binary,
+	ExpressionAddUnary_add: unary,
+	ExpressionRelation_relation: binary,
+	ExpressionNot_not: unary,
+	ExpressionAnd_and: binary,
+	ExpressionOr_or: binary
 });
+function binary(left, operator, right) {
+	return new Expression.Operation(
+		operator.sourceString,
+		left.parse(),
+		right.parse()
+	);
+}
+function unary(operator, operand) {
+	if (operator.isTerminal())
+		return new Expression.Operation(
+			operator.sourceString,
+			undefined,
+			operand.parse()
+		);
+	else {
+		[operator, operand] = [operand, operator];
+		return new Expression.Operation(
+			operator.sourceString,
+			operand.parse(),
+			undefined
+		);
+	}
+}
 var escape = {
 	'"': '"',
 	'\\': '\\',
