@@ -22,7 +22,8 @@ sql {
 		("+"|"-") ExpressionAddUnary	-- add
 		| ExpressionAtom
 	ExpressionAtom =
-		ExpressionName
+		"(" Expression ")"	-- parentheses
+		| ExpressionName
 		| number
 		| string
 	ExpressionName = (identifier ".")? identifier

@@ -31,6 +31,18 @@ it('parse', function () {
 			)
 		)
 	);
+	var sql = parse('(1+2)*3');
+	assert.deepEqual(sql,
+		new Expression.Operation(
+			'*',
+			new Expression.Operation(
+				'+',
+				new Expression.Literal(1),
+				new Expression.Literal(2)
+			),
+			new Expression.Literal(3)
+		)
+	);
 });
 var generate = require('../generate');
 it('generate', function () {
