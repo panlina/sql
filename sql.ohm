@@ -1,5 +1,8 @@
 sql {
-	Expression = ExpressionOr
+	Expression = ExpressionSelect | ExpressionOr
+	ExpressionSelect = "select" ListOf<ExpressionSelectField, ","> "from" ListOf<ExpressionSelectTable, ",">
+	ExpressionSelectField = Expression identifier?
+	ExpressionSelectTable = Expression identifier?
 	ExpressionOr =
 		ExpressionOr "||" ExpressionAnd	-- or
 		| ExpressionAnd
@@ -27,7 +30,7 @@ sql {
 		| number
 		| string
 	ExpressionName = (identifier ".")? identifier
-	identifier = &(letter|"_") (alnum|"_")+
+	identifier = ~(("select"|"from") ~(alnum|"_")) &(letter|"_") (alnum|"_")+
 	number = digit+ ("." digit+)?
 	string = "\"" char* "\""
 	char = ~("\""|"\\") any	-- literal

@@ -28,7 +28,16 @@ class Operation extends Expression {
 	}
 }
 
+class Select extends Expression {
+	constructor(field, from) {
+		super('select');
+		this.field = field;
+		this.from = from;
+	}
+}
+
 module.exports = Expression;
 module.exports.Literal = Literal;
 module.exports.Name = Name;
 module.exports.Operation = Operation;
+module.exports.Select = Select;
