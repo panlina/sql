@@ -1,6 +1,6 @@
 sql {
 	Expression = ExpressionSelect | ExpressionOr
-	ExpressionSelect = "select" ListOf<ExpressionSelectField, ","> "from" ListOf<ExpressionSelectTable, ",">
+	ExpressionSelect = "select" ListOf<ExpressionSelectField, ","> ("from" ListOf<ExpressionSelectTable, ",">)?
 	ExpressionSelectField = Expression identifier?
 	ExpressionSelectTable = Expression identifier?
 	ExpressionOr =

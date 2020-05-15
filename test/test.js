@@ -43,6 +43,13 @@ it('parse', function () {
 			new Expression.Literal(3)
 		)
 	);
+	var sql = parse('select 0');
+	assert.deepEqual(sql,
+		new Expression.Select(
+			[new Expression.Literal(0)],
+			[]
+		)
+	);
 	var sql = parse('select 0,1 from a _0');
 	assert.deepEqual(sql,
 		new Expression.Select(
