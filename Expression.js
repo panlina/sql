@@ -29,10 +29,11 @@ class Operation extends Expression {
 }
 
 class Select extends Expression {
-	constructor(field, from) {
+	constructor(field, from, where) {
 		super('select');
 		this.field = field;
 		this.from = from;
+		this.where = where;
 	}
 }
 

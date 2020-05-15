@@ -17,7 +17,11 @@ var semantics = grammar.createSemantics().addOperation('parse', {
 	ExpressionOr_or: binary,
 	ExpressionSelectField: (field, as) => as.sourceString ? Object.assign(field.parse(), { as: as.children[0].parse() }) : field.parse(),
 	ExpressionSelectTable: (table, alias) => alias.sourceString ? Object.assign(table.parse(), { alias: alias.children[0].parse() }) : table.parse(),
-	ExpressionSelect: (_select, field, _from, from) => new Expression.Select(field.asIteration().parse(), _from.children[0] ? from.children[0].asIteration().parse() : [])
+	ExpressionSelect: (_select, field, _from, from, _where, where) => new Expression.Select(
+		field.asIteration().parse(),
+		_from.children[0] ? from.children[0].asIteration().parse() : [],
+		_where.children[0] ? where.children[0].parse() : null
+	)
 });
 function binary(left, operator, right) {
 	return new Expression.Operation(

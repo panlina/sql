@@ -1,6 +1,9 @@
 sql {
 	Expression = ExpressionSelect | ExpressionOr
-	ExpressionSelect = "select" NonemptyListOf<ExpressionSelectField, ","> ("from" NonemptyListOf<ExpressionSelectTable, ",">)?
+	ExpressionSelect =
+		"select" NonemptyListOf<ExpressionSelectField, ",">
+		("from" NonemptyListOf<ExpressionSelectTable, ",">)?
+		("where" Expression)?
 	ExpressionSelectField = Expression identifier?
 	ExpressionSelectTable = Expression identifier?
 	ExpressionOr =
@@ -30,7 +33,7 @@ sql {
 		| number
 		| string
 	ExpressionName = (identifier ".")? identifier
-	identifier = ~(("select"|"from") ~(alnum|"_")) &(letter|"_") (alnum|"_")+
+	identifier = ~(("select"|"from"|"where") ~(alnum|"_")) &(letter|"_") (alnum|"_")+
 	number = digit+ ("." digit+)?
 	string = "\"" char* "\""
 	char = ~("\""|"\\") any	-- literal
