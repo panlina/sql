@@ -5,6 +5,8 @@ sql {
 		("from" NonemptyListOf<ExpressionSelectTable, ",">)?
 		("where" Expression)?
 		("order" "by" Expression ("asc" | "desc")?)?
+		("limit" Expression)?
+		("offset" Expression)?
 	ExpressionSelectField = Expression identifier?
 	ExpressionSelectTable = Expression identifier?
 	ExpressionOr =
@@ -34,7 +36,7 @@ sql {
 		| number
 		| string
 	ExpressionName = (identifier ".")? identifier
-	identifier = ~(("select"|"from"|"where"|"order") ~(alnum|"_")) &(letter|"_") (alnum|"_")+
+	identifier = ~(("select"|"from"|"where"|"order"|"limit"|"offset") ~(alnum|"_")) &(letter|"_") (alnum|"_")+
 	number = digit+ ("." digit+)?
 	string = "\"" char* "\""
 	char = ~("\""|"\\") any	-- literal

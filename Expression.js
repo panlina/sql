@@ -29,13 +29,15 @@ class Operation extends Expression {
 }
 
 class Select extends Expression {
-	constructor(field, from, where, order, direction) {
+	constructor(field, from, where, order, direction, limit, offset) {
 		super('select');
 		this.field = field;
 		this.from = from;
 		this.where = where;
 		this.order = order;
 		this.direction = direction;
+		this.limit = limit;
+		this.offset = offset;
 	}
 }
 

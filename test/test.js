@@ -50,14 +50,16 @@ it('parse', function () {
 			[]
 		)
 	);
-	var sql = parse('select 0,1 from a _0 where 0 order by 0 asc');
+	var sql = parse('select 0,1 from a _0 where 0 order by 0 asc limit 0 offset 0');
 	assert.deepEqual(sql,
 		new Expression.Select(
 			[new Expression.Literal(0), new Expression.Literal(1)],
 			[Object.assign(new Expression.Name('a'), { alias: '_0' })],
 			new Expression.Literal(0),
 			new Expression.Literal(0),
-			false
+			false,
+			new Expression.Literal(0),
+			new Expression.Literal(0)
 		)
 	);
 });
