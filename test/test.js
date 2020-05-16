@@ -46,14 +46,16 @@ it('parse', function () {
 	var sql = parse('select 0');
 	assert.deepEqual(sql,
 		new Expression.Select(
+			undefined,
 			false,
 			[new Expression.Literal(0)],
 			[]
 		)
 	);
-	var sql = parse('select distinct 0,1 from a _0 where 0 order by 0 asc limit 0 offset 0');
+	var sql = parse('with a as 0 select distinct 0,1 from a _0 where 0 order by 0 asc limit 0 offset 0');
 	assert.deepEqual(sql,
 		new Expression.Select(
+			{ name: 'a', value: new Expression.Literal(0) },
 			true,
 			[new Expression.Literal(0), new Expression.Literal(1)],
 			[Object.assign(new Expression.Name('a'), { alias: '_0' })],
