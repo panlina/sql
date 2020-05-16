@@ -50,7 +50,7 @@ it('parse', function () {
 			[]
 		)
 	);
-	var sql = parse('select 0,1 from a _0 where 0 order 0 asc');
+	var sql = parse('select 0,1 from a _0 where 0 order by 0 asc');
 	assert.deepEqual(sql,
 		new Expression.Select(
 			[new Expression.Literal(0), new Expression.Literal(1)],
