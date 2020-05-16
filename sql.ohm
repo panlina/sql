@@ -1,7 +1,7 @@
 sql {
 	Expression = ExpressionSelect | ExpressionOr
 	ExpressionSelect =
-		"select" NonemptyListOf<ExpressionSelectField, ",">
+		"select" "distinct"? NonemptyListOf<ExpressionSelectField, ",">
 		("from" NonemptyListOf<ExpressionSelectTable, ",">)?
 		("where" Expression)?
 		("order" "by" Expression ("asc" | "desc")?)?
@@ -36,7 +36,7 @@ sql {
 		| number
 		| string
 	ExpressionName = (identifier ".")? identifier
-	identifier = ~(("select"|"from"|"where"|"order"|"limit"|"offset") ~(alnum|"_")) &(letter|"_") (alnum|"_")+
+	identifier = ~(("select"|"distinct"|"from"|"where"|"order"|"limit"|"offset") ~(alnum|"_")) &(letter|"_") (alnum|"_")+
 	number = digit+ ("." digit+)?
 	string = "\"" char* "\""
 	char = ~("\""|"\\") any	-- literal

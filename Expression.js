@@ -29,8 +29,9 @@ class Operation extends Expression {
 }
 
 class Select extends Expression {
-	constructor(field, from, where, order, direction, limit, offset) {
+	constructor(distinct, field, from, where, order, direction, limit, offset) {
 		super('select');
+		this.distinct = distinct;
 		this.field = field;
 		this.from = from;
 		this.where = where;
