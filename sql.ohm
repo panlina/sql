@@ -4,7 +4,7 @@ sql {
 		"select" NonemptyListOf<ExpressionSelectField, ",">
 		("from" NonemptyListOf<ExpressionSelectTable, ",">)?
 		("where" Expression)?
-		("order" Expression)?
+		("order" Expression ("asc" | "desc")?)?
 	ExpressionSelectField = Expression identifier?
 	ExpressionSelectTable = Expression identifier?
 	ExpressionOr =
