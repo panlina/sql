@@ -65,6 +65,22 @@ it('parse', function () {
 			offset: new Expression.Literal(0)
 		})
 	);
+	var sql = parse('(select 0) union (select 1)');
+	assert.deepEqual(sql,
+		new Expression.Union(
+			new Expression.Select({
+				distinct: false,
+				field: [new Expression.Literal(0)],
+				from: []
+			}),
+			new Expression.Select({
+				distinct: false,
+				field: [new Expression.Literal(1)],
+				from: []
+			}),
+			false
+		)
+	);
 });
 var generate = require('../generate');
 it('generate', function () {

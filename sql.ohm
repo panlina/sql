@@ -1,5 +1,5 @@
 sql {
-	Expression = ExpressionSelect | ExpressionOr
+	Expression = ExpressionSelect | ExpressionUnion
 	ExpressionSelect =
 		("with" identifier "as" Expression)?
 		"select" "distinct"? NonemptyListOf<ExpressionSelectField, ",">
@@ -10,6 +10,9 @@ sql {
 		("offset" Expression)?
 	ExpressionSelectField = Expression identifier?
 	ExpressionSelectTable = Expression identifier?
+	ExpressionUnion =
+		ExpressionUnion "union" "all"? ExpressionOr	-- union
+		| ExpressionOr
 	ExpressionOr =
 		ExpressionOr "||" ExpressionAnd	-- or
 		| ExpressionAnd

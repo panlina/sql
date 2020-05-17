@@ -28,6 +28,15 @@ class Operation extends Expression {
 	}
 }
 
+class Union extends Expression {
+	constructor(left, right, all) {
+		super('union');
+		this.left = left;
+		this.right = right;
+		this.all = all;
+	}
+}
+
 class Select extends Expression {
 	constructor(argument) {
 		super('select');
@@ -47,4 +56,5 @@ module.exports = Expression;
 module.exports.Literal = Literal;
 module.exports.Name = Name;
 module.exports.Operation = Operation;
+module.exports.Union = Union;
 module.exports.Select = Select;

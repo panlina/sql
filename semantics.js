@@ -15,6 +15,11 @@ var semantics = grammar.createSemantics().addOperation('parse', {
 	ExpressionNot_not: unary,
 	ExpressionAnd_and: binary,
 	ExpressionOr_or: binary,
+	ExpressionUnion_union: (left, _union, _all, right) => new Expression.Union(
+		left.parse(),
+		right.parse(),
+		!!_all.children[0]
+	),
 	ExpressionSelectField: (field, as) => as.sourceString ? Object.assign(field.parse(), { as: as.children[0].parse() }) : field.parse(),
 	ExpressionSelectTable: (table, alias) => alias.sourceString ? Object.assign(table.parse(), { alias: alias.children[0].parse() }) : table.parse(),
 	ExpressionSelect: (_with, withName, _as, withValue, _select, distinct, field, _from, from, _where, where, _order, _by, order, direction, _limit, limit, _offset, offset) => new Expression.Select({
