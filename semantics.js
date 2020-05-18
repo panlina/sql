@@ -8,6 +8,7 @@ var semantics = grammar.createSemantics().addOperation('parse', {
 	identifier: (_, x) => x.sourceString,
 	ExpressionName: (qualifier, dot, identifier) => new Expression.Name(identifier.parse(), qualifier.children[0] ? qualifier.children[0].parse() : null),
 	ExpressionAtom_parentheses: (open, expression, close) => expression.parse(),
+	ExpressionAtom_placeholder: (open, name, close) => new Expression.Placeholder(name.parse()),
 	ExpressionAdd_add: binary,
 	ExpressionMultiply_multiply: binary,
 	ExpressionAddUnary_add: unary,

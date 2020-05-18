@@ -36,6 +36,7 @@ sql {
 		| ExpressionAtom
 	ExpressionAtom =
 		"(" Expression ")"	-- parentheses
+		| "%" identifier "%"	-- placeholder
 		| ExpressionName
 		| number
 		| string

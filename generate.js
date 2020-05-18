@@ -97,6 +97,8 @@ function generate(sql) {
 			return name;
 		case 'literal':
 			return JSON.stringify(sql.value);
+		case 'placeholder':
+			return `%${expression.name}%`;
 	}
 	function identifier(s) {
 		if (!/^[a-z_$][\w_$]*$/i.test(s))

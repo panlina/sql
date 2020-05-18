@@ -52,9 +52,17 @@ class Select extends Expression {
 	}
 }
 
+class Placeholder extends Expression {
+	constructor(name) {
+		super('placeholder');
+		this.name = name;
+	}
+}
+
 module.exports = Expression;
 module.exports.Literal = Literal;
 module.exports.Name = Name;
 module.exports.Operation = Operation;
 module.exports.Union = Union;
 module.exports.Select = Select;
+module.exports.Placeholder = Placeholder;

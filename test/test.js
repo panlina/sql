@@ -81,6 +81,14 @@ it('parse', function () {
 			false
 		)
 	);
+	var sql = parse("%a%+%b%");
+	assert.deepEqual(sql,
+		new Expression.Operation(
+			'+',
+			new Expression.Placeholder('a'),
+			new Expression.Placeholder('b')
+		)
+	);
 });
 var generate = require('../generate');
 it('generate', function () {
