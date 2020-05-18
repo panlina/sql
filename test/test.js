@@ -89,6 +89,18 @@ it('parse', function () {
 			new Expression.Placeholder('b')
 		)
 	);
+	var n = new Expression.Literal(0);
+	var sql = require('../sql')`${n}+1`;
+	assert.deepEqual(sql,
+		new Expression.Operation(
+			'+',
+			n,
+			new Expression.Literal(1)
+		)
+	);
+	var n = new Expression.Literal(0);
+	var sql = require('../sql')`${n}`;
+	assert.deepEqual(sql, n);
 });
 var generate = require('../generate');
 it('generate', function () {

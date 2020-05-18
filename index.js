@@ -1,3 +1,4 @@
+exports = module.exports = require('./sql');
 exports.parse = require('./parse');
 exports.traverse = require('./traverse');
 exports.substitute = require('./substitute');

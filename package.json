@@ -5,7 +5,8 @@
   "license": "ISC",
   "dependencies": {
     "lodash.groupby": "^4.6.0",
-    "ohm-js": "^0.14.0"
+    "ohm-js": "^0.14.0",
+    "traverse": "^0.6.6"
   },
   "devDependencies": {
     "mocha": "^7.1.0"
