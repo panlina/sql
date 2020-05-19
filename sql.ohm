@@ -8,7 +8,9 @@ sql {
 		("order" "by" Expression ("asc" | "desc")?)?
 		("limit" Expression)?
 		("offset" Expression)?
-	ExpressionSelectField = Expression identifier?
+	ExpressionSelectField =
+		Expression identifier?	-- expression
+		| (identifier ".")? "*"	-- star
 	ExpressionSelectTable = Expression identifier?
 	ExpressionUnion =
 		ExpressionUnion "union" "all"? ExpressionOr	-- union

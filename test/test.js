@@ -51,6 +51,14 @@ it('parse', function () {
 			from: []
 		})
 	);
+	var sql = parse('select t.*,s.a from t,s');
+	assert.deepEqual(sql,
+		new Expression.Select({
+			distinct: false,
+			field: [new Expression.Name('*', 't'), new Expression.Name('a', 's')],
+			from: [new Expression.Name('t'), new Expression.Name('s')]
+		})
+	);
 	var sql = parse('with a as 0 select distinct 0,1 from a _0 where 0 order by 0 asc limit 0 offset 0');
 	assert.deepEqual(sql,
 		new Expression.Select({

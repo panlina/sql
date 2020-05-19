@@ -21,7 +21,8 @@ var semantics = grammar.createSemantics().addOperation('parse', {
 		right.parse(),
 		!!_all.children[0]
 	),
-	ExpressionSelectField: (field, as) => as.sourceString ? Object.assign(field.parse(), { as: as.children[0].parse() }) : field.parse(),
+	ExpressionSelectField_expression: (field, as) => as.sourceString ? Object.assign(field.parse(), { as: as.children[0].parse() }) : field.parse(),
+	ExpressionSelectField_star: (qualifier, dot, star) => new Expression.Name('*', qualifier.children[0] ? qualifier.children[0].parse() : null),
 	ExpressionSelectTable: (table, alias) => alias.sourceString ? Object.assign(table.parse(), { alias: alias.children[0].parse() }) : table.parse(),
 	ExpressionSelect: (_with, withName, _as, withValue, _select, distinct, field, _from, from, _where, where, _order, _by, order, direction, _limit, limit, _offset, offset) => new Expression.Select({
 		with: _with.children[0] ? { name: withName.children[0].parse(), value: withValue.children[0].parse() } : null,
