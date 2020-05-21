@@ -11,6 +11,20 @@ it('parse', function () {
 	assert.deepEqual(sql, new Expression.Name('a'));
 	var sql = parse('a.b');
 	assert.deepEqual(sql, new Expression.Name('b', 'a'));
+	var sql = parse('f(1+2,3)');
+	assert.deepEqual(sql,
+		new Expression.Call(
+			new Expression.Name('f'),
+			[
+				new Expression.Operation(
+					'+',
+					new Expression.Literal(1),
+					new Expression.Literal(2)
+				),
+				new Expression.Literal(3)
+			]
+		)
+	);
 	var sql = parse('1+2<3&&!0');
 	assert.deepEqual(sql,
 		new Expression.Operation(

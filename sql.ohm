@@ -35,6 +35,9 @@ sql {
 		| ExpressionAddUnary
 	ExpressionAddUnary =
 		("+"|"-") ExpressionAddUnary	-- add
+		| ExpressionCall
+	ExpressionCall =
+		ExpressionAtom "(" ListOf<Expression, ","> ")"	-- call
 		| ExpressionAtom
 	ExpressionAtom =
 		"(" Expression ")"	-- parentheses

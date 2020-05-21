@@ -19,6 +19,14 @@ class Name extends Expression {
 	}
 }
 
+class Call extends Expression {
+	constructor(expression, argument) {
+		super('call');
+		this.expression = expression;
+		this.argument = argument;
+	}
+}
+
 class Operation extends Expression {
 	constructor(operator, left, right) {
 		super('operation');
@@ -62,6 +70,7 @@ class Placeholder extends Expression {
 module.exports = Expression;
 module.exports.Literal = Literal;
 module.exports.Name = Name;
+module.exports.Call = Call;
 module.exports.Operation = Operation;
 module.exports.Union = Union;
 module.exports.Select = Select;
