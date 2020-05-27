@@ -211,60 +211,33 @@ it('generate', function () {
 });
 var reduce = require('../reduce');
 it('reduce', function () {
-	var sql = {
-		type: 'select',
-		field: [{ type: 'name', identifier: '*' }],
-		from: [{ type: 'name', identifier: 't', alias: '_0' }],
-		where: { type: 'literal', value: 0 }
-	};
-	sql = {
-		type: 'select',
-		field: [{ type: 'name', identifier: '*' }],
-		from: [Object.assign(sql, { alias: '_1' })],
-		limit: { type: 'literal', value: 10 }
-	};
+	var sql = require('../sql')`
+		select * from (
+			select * from t _0
+			where 0
+		) _1
+		limit 10
+	`;
 	assert.equal(generate(reduce(sql)), "select * from t _0 where 0 limit 10");
 });
 it('reduce', function () {
-	var sql = {
-		type: 'select',
-		field: [{ type: 'name', identifier: '*' }],
-		from: [{ type: 'name', identifier: 't', alias: '_0' }],
-		limit: { type: 'literal', value: 10 }
-	};
-	sql = {
-		type: 'select',
-		field: [{ type: 'name', identifier: '*' }],
-		from: [Object.assign(sql, { alias: '_1' })],
-		where: { type: 'literal', value: 0 }
-	};
+	var sql = require('../sql')`
+		select * from (
+			select * from t _0
+			limit 10
+		) _1
+		where 0
+	`;
 	assert.equal(generate(reduce(sql)), "select * from (select * from t _0 limit 10) _1 where 0");
 });
 var decorrelate = require('../decorrelate');
 it('decorrelate', function () {
-	var sql = {
-		type: 'select',
-		field: [{
-			type: 'select',
-			field: [{ type: 'name', qualifier: '_1', identifier: '*' }],
-			from: [{ type: 'name', identifier: 's', alias: '_1' }],
-			where: {
-				type: 'operation',
-				operator: '=',
-				left: {
-					type: 'name',
-					qualifier: '_1',
-					identifier: 'id'
-				},
-				right: {
-					type: 'name',
-					qualifier: '_0',
-					identifier: 's'
-				}
-			}
-		}],
-		from: [{ type: 'name', identifier: 't', alias: '_0' }]
-	};
+	var sql = require('../sql')`
+		select (
+			select _1.* from s _1
+			where _1.id = _0.s
+		) from t _0
+	`;
 	decorrelate(sql);
 	assert.equal(generate(sql), "select _1.`*` from t _0,s _1 where _1.id=_0.s");
 });
