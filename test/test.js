@@ -239,5 +239,5 @@ it('decorrelate', function () {
 		) from t _0
 	`;
 	decorrelate(sql);
-	assert.equal(generate(sql), "select _1.`*` from t _0,s _1 where _1.id=_0.s");
+	assert.equal(generate(sql), "select _1.* from t _0,s _1 where _1.id=_0.s");
 });

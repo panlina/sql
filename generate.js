@@ -93,7 +93,7 @@ function generate(sql) {
 		case 'name':
 			var name = sql.identifier;
 			if (sql.qualifier)
-				name = `${identifier(sql.qualifier)}.${identifier(name)}`;
+				name = `${identifier(sql.qualifier)}.${name == '*' ? '*' : identifier(name)}`;
 			return name;
 		case 'literal':
 			return JSON.stringify(sql.value);
