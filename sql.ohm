@@ -48,7 +48,8 @@ sql {
 	ExpressionName = (identifier ".")? identifier
 	ExpressionNumber = number
 	ExpressionString = string<"\"">
-	identifier = ~(("select"|"distinct"|"from"|"where"|"order"|"limit"|"offset") ~(alnum|"_")) &(letter|"_") (alnum|"_")+
+	identifier = ~(("select"|"distinct"|"from"|"where"|"order"|"limit"|"offset") ~(alnum|"_")) &(letter|"_") (alnum|"_")+	-- literal
+		| string<"`">	-- escaped
 	number = digit+ ("." digit+)?
 	string<quote> = quote char<quote>* quote
 	char<quote> = ~(quote|"\\") any	-- literal

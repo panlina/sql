@@ -9,7 +9,7 @@ it('parse', function () {
 	assert.deepEqual(sql, new Expression.Literal("abc\n"));
 	var sql = parse('a');
 	assert.deepEqual(sql, new Expression.Name('a'));
-	var sql = parse('a.b');
+	var sql = parse('a.`b`');
 	assert.deepEqual(sql, new Expression.Name('b', 'a'));
 	var sql = parse('f(1+2,3)');
 	assert.deepEqual(sql,
