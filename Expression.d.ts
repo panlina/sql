@@ -1,9 +1,9 @@
-import * as Expression from "./Expression";
-
-export = class Expression {
+class Expression {
 	constructor(type: string);
 	type: string;
 }
+
+export = Expression;
 
 export class Literal extends Expression {
 	constructor(value: Literal["value"]);
