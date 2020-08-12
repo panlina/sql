@@ -43,8 +43,8 @@ export class Select extends Expression {
 		value: Expression;
 	};
 	distinct?: boolean;
-	field: Expression[];
-	from: Expression[];
+	field: (Expression & { as?: string })[];
+	from: (Expression & { alias?: string })[];
 	where?: Expression;
 	order?: Expression;
 	direction?: boolean;
